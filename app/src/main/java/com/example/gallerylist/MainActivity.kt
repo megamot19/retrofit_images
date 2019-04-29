@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         list.adapter = dogsAdapter
     }
 
+
     private fun fetchImages() {
         Network.call().getDogsImages().enqueue(object : Callback<DogResponse> {
             override fun onResponse(call: Call<DogResponse>, response: Response<DogResponse>) {
