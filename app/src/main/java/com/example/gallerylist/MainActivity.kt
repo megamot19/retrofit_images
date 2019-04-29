@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.widget.Toast
 import com.example.gallerylist.model.remote.Network
 import com.example.gallerylist.ui.main.DogsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,16 +21,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setDogsRecyclerView()
-
+        fetchImages()
         // bind the button from the view (xml)
-        button.setOnClickListener {
+//        button.setOnClickListener {
             // call the dog api function
-            fetchImages()
-        }
+
+//        }
     }
 
     private fun setDogsRecyclerView() {
-        dogsAdapter = DogsAdapter()
+        dogsAdapter = DogsAdapter {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        }
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = dogsAdapter
     }
