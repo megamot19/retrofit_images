@@ -2,6 +2,7 @@ package com.example.gallerylist
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.Toast
@@ -21,18 +22,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setDogsRecyclerView()
-        fetchImages()
         // bind the button from the view (xml)
-//        button.setOnClickListener {
-            // call the dog api function
+        button.setOnClickListener {
+//            call the dog api function
+            fetchImages()
 
-//        }
+        }
     }
 
     private fun setDogsRecyclerView() {
-        dogsAdapter = DogsAdapter {
-            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-        }
+        dogsAdapter =  DogsAdapter()
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = dogsAdapter
     }
@@ -42,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         Network.call().getDogsImages().enqueue(object : Callback<DogResponse> {
             override fun onResponse(call: Call<DogResponse>, response: Response<DogResponse>) {
                 if (response.isSuccessful) {
-                    dogsAdapter?.showDogs(response.body()?.imagesList ?: arrayListOf())
+                    // 200..300
+                    dogsAdapter?.showDogs(response.body()?.imagesList?.toMutableList()
+                        ?: arrayListOf())
                 } else {
                     // internal error 500..600
                     Log.d("test", "error")
